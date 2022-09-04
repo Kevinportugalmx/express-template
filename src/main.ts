@@ -1,30 +1,33 @@
 import express from 'express'
 import http from 'http'
 import cors from 'cors'
+import helmet from 'helmet'
+import { routes } from './routes/index.js'
 import { config } from './config.js'
 import { dbConnection } from './db/connection.js'
-import { user } from './controllers/user.js'
-import 'dotenv/config'
 
 const app = express()
+
 const server = http.createServer(app)
+
 app.use(cors())
+app.options('*', cors())
+app.use(helmet())
 app.use(express.json())
-//routes
-app.use('/api/v1/user', user)
+app.use('/v1', routes)
+
+//TODO
+// jwt authentication
+// class validator
+// rate limiter
 
 export const bootstrap = async (): Promise<void> => {
   const db = dbConnection()
   db.once('open', async () => {
-    console.log('Moongose connected successfully')
+    console.log('Connected to MongoDB')
     server.listen(config.Port, () => {
       console.log(`Express is listening on http://localhost:${config.Port}`)
     })
   })
 }
 bootstrap()
-
-//https://github.com/hagopj13/node-express-boilerplate
-//jwt auth guard
-//class validator
-//middleware: rate-limiter

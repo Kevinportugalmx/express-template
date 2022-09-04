@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "node dist/src/main.js",
-    "start:dev": "yarn build && nodemon dist/src/main.js",
+    "start:dev": "nodemon",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
     "build": "tsc -p tsconfig.json",
@@ -43,7 +43,10 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "helmet": "^6.0.0",
+    "http-status": "^1.5.2",
     "mongoose": "^6.5.4",
+    "ts-node": "^10.9.1",
     "tslib": "~2.4"
   },
   "volta": {

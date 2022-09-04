@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export interface IUser {
+interface IUser {
   _id: string
   email: string
   password: string
@@ -22,4 +22,6 @@ const User = new mongoose.Schema(
   },
 )
 
-export const userModel = mongoose.model<IUser & mongoose.Document>('User', User)
+const userModel = mongoose.model<IUser & mongoose.Document>('User', User)
+
+export { IUser, userModel }

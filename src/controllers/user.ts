@@ -1,31 +1,26 @@
-import { Request, Response, Router } from 'express'
-import { userModel } from '../db/models/user.js'
-import { ObjectID } from 'bson'
+import { Request, Response } from 'express'
+import { catchAsync } from '../utils/catch-async.js'
+import { userService } from '../services/index.js'
 
-export const user = Router()
+const getUsers = catchAsync(
+  async (_req: Request, _res: Response): Promise<Response> => {
+    const user = await userService.getUser()
+    return _res.json(user)
+  },
+)
 
-user
-  .route('/')
-  .get(async (_req: Request, _res: Response): Promise<Response> => {
-    const user = await userModel.find().select(['-password']).lean().exec()
+const getOneUser = catchAsync(
+  async (_req: Request, _res: Response): Promise<Response> => {
+    const user = await userService.getOneUser(_req.params.id)
     return _res.json(user)
-  })
-user
-  .route('/:id')
-  .get(async (_req: Request, _res: Response): Promise<Response> => {
-    const _id = new ObjectID(_req.params.id)
-    const user = await userModel
-      .findOne({ _id })
-      .select(['-password'])
-      .lean()
-      .exec()
-    if (!user) {
-      return _res.status(404).json({ message: 'USER_NOT_FOUND' })
-    }
+  },
+)
+
+const createUser = catchAsync(
+  async (_req: Request, _res: Response): Promise<Response> => {
+    const user = await userService.createUser()
     return _res.json(user)
-  })
-user
-  .route('/create')
-  .post(async (_req: Request, _res: Response): Promise<Response> => {
-    return _res.json(_req.body)
-  })
+  },
+)
+
+export { getUsers, getOneUser, createUser }
