@@ -27,7 +27,7 @@
   "scripts": {
     "start": "node dist/src/main.js",
     "start:dev": "nodemon",
-    "clean": "rimraf coverage build tmp",
+    "clean": "rimraf coverage dist tmp",
     "prebuild": "npm run lint",
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -w -p tsconfig.json",
