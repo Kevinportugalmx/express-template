@@ -1,0 +1,133 @@
+** Como te imaginas que es trabajar aquí?
+
+
+** Cuentame de algo que te haya obsesionado tanto porque lo querias y que fue o como le hiciste para conseguirlo
+
+
+** Cual consideras que haya sido tu mayor impacto en una empresa
+
+
+** La situación mas frustrante en las que has estado, por qué lo fue? y como le hiciste para salir de esa situacion?
+
+
+** Cual es tu receta para manejar la incertidumbre
+
+
+** Estilo de aprendizaje, qué te funciona para aprender? 
+
+
+** Si le preguntara a 3 amigos, que me dirian de ti? "Que opinas de miguel lopez"
+
+
+** En este año, cual es el aprendizaje mas grande y por qué es importante
+
+
+
+//01
+const test01 = (input: Array<number>) => {
+  const strArr = input.map((n) => n.toString().split("").map(Number)); 
+  const weight = strArr.map((r) => r.reduce((prev, curr) => prev + curr));
+  return weight.sort(); 
+};
+test01([123, 27, 151, 323, 32])
+
+//02
+//You have a list of bills to pay, this list is expressed like a sequence of amounts with an array. e.g:
+
+// [1, 2, 3, 4, 5, 6]
+// [1, 1, 10, 10] => 20 // expected 2
+
+//You need to pay those bills in the order they appear. For a reason I can't remember right now,
+  //it is required you can pay it in two payments. Find the way to split the original sequence in two groups
+  //in order to minimize the difference between both payments.
+
+//Sample:
+//[1, 2, 3, 4] and [5, 6], then your payments will be 10 and 11 respectively. With a difference of 1.
+//On the other hand, if you choose something different you get a bigger difference. For example choosing: [1, 2, 3] and [4, 5, 6] you get payment for 6 and 15, with a difference of 9.
+
+//Write a function that returns this minimum difference (in the provided sample, the answer would be 1).
+
+const test02 = (input: Array<number>) => {
+  let a: number;
+  let b: number;
+  let diff = [];
+  for (let i = 0; i < input.length - 1; i++) {
+    a = input.slice(0, i + 1).reduce((prev, curr) => prev + curr);
+    b = input.slice(i + 1, input.length).reduce((prev, curr) => prev + curr);
+    diff.push(Math.abs(a - b));
+  }
+  return Math.min(...diff);
+};
+test02([1, 2, 3, 4, 5, 6]);
+
+//03
+// Teniendo un arreglo, debes retornar otro arreglo con el valor absoluto de cada elemento
+// que se encuentre tanto en positivo como negativo en el primer arreglo 
+// [1, 2, 3, 4] => []
+// [1, 2, 3, 0, -1, -3, -4] => [1, 3]
+// [-1, 3, 0, -2, -3, 1, 5, -5] => [1, 3, 5]
+
+// input: [-1, 3, 0, -2, -3, 1, 5, -5] => 
+// output: [1, 3, 5]
+const test03 = (input: Array<number>) => {
+  const [negative, positive] = Array(2)
+    .fill(undefined)
+    .map((v, idx) => {
+      return idx === 0
+        ? input.filter((x) => Math.sign(x) === -1)
+        : input.filter((x) => Math.sign(x) === 1);
+    });
+  return negative
+    .filter((v) => positive.includes(Math.abs(v)))
+    .map((x) => Math.abs(x));
+};
+test03([1, 2, 3, 4]);
+test03([1, 2, 3, 0, -1, -3, -4]);
+test03([-1, 3, 0, -2, -3, 1, 5, -5]);
+
+https://codeshare.io/X8lxnk
+
+
+NEED TO LEARN THIS!!!
+
+programming languages:
+python basics
+java basics
+ruby & ruby on rails basics
+
+architectures:
+Everdrive architecture y Domain Driven architecture
+test driven development Domain Driven Design
+
+pattern designs:
+Factory, Singleton, dependency injection.
+
+extras:
+man in the middle
+big o notation
+solid
+
+testing:
+unit tests
+e2e tests
+
+build tools node:
+webpack
+
+backend:
+express
+graphql
+
+frontend:
+react (react query, usecontext, custom hooks)
+vue learn maybe
+
+mobile:
+react-native learn maybe
+flutter learn maybe
+
+db:
+sql repaso
+
+english
+B2 (actually A2)

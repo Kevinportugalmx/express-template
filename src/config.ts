@@ -21,6 +21,10 @@ export class Config {
     return this.getEnv('MONGO_URL')
   }
 
+  get RedisUrl(): string {
+    return this.getEnv('REDIS_URL')
+  }
+
   protected getEnv(env: string): string {
     if (!process.env[env]) {
       throw new Error(`Missing env var ${env}`)

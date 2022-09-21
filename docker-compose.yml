@@ -1,33 +1,33 @@
 version: '3'
 
 services:
-  moto:
-    image: motoserver/moto #AWS
-    ports:
-      - '5000:5000'
-  minio:
-    image: minio/minio #AWS S3
-    restart: 'no'
-    volumes:
-      - ./minio/data:/data
-    ports:
-      - '9000:9000'
-    environment:
-      MINIO_ACCESS_KEY: ACCESS_KEY
-      MINIO_SECRET_KEY: SECRET_KEY
-    command: server /data
+  # moto:
+  #   image: motoserver/moto #AWS
+  #   ports:
+  #     - '5000:5000'
+  # minio:
+  #   image: minio/minio #AWS S3
+  #   restart: 'no'
+  #   volumes:
+  #     - ./minio/data:/data
+  #   ports:
+  #     - '9000:9000'
+  #   environment:
+  #     MINIO_ACCESS_KEY: ACCESS_KEY
+  #     MINIO_SECRET_KEY: SECRET_KEY
+  #   command: server /data
   redis:
     image: redis:alpine #REDIS
     command: redis-server --appendonly yes --requirepass wuYZ5b9WzeCs
     ports:
       - '6379:6379'
-  mongodb:
-    image: mongo:4.4.6 #MONGODB
-    volumes:
-      - ./mongo:/data/db
-    ports:
-      - '27017:27017'
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=app_user
-      - MONGO_INITDB_ROOT_PASSWORD=app_password
-      - MONGO_INITDB_DATABASE=admin
+  # mongodb:
+  #   image: mongo:4.4.6 #MONGODB
+  #   volumes:
+  #     - ./mongo:/data/db
+  #   ports:
+  #     - '27017:27017'
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=app_user
+  #     - MONGO_INITDB_ROOT_PASSWORD=app_password
+  #     - MONGO_INITDB_DATABASE=admin
