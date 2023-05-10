@@ -1,9 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
 import jwt from 'jsonwebtoken'
-import { HttpException } from './http-exception'
+import { HttpException } from '../error/http-exception'
+import { config } from '../../config'
 
-export const jwtMiddleware = (
+export interface ITokenData {
+  _id: string
+  email: string
+  roles: Array<string>
+}
+
+export const JwtMiddleware = (
   _req: Request,
   _res: Response,
   _next: NextFunction,
@@ -16,7 +23,7 @@ export const jwtMiddleware = (
       _next(new HttpException(httpStatus.UNAUTHORIZED, 'Unauthorized'))
     }
 
-    jwt.verify(token, 's0m3_r4nd0m_k3y')
+    jwt.verify(token, config.JWT.secret)
 
     _next()
   } catch (error) {

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { catchAsync } from '../middlewares/catch-async.js'
+import { catchAsync } from '../middlewares/error/catch-async.js'
 import { userService } from '../services/index.service.js'
 
 export const getUsers = catchAsync(
@@ -12,13 +12,6 @@ export const getUsers = catchAsync(
 export const getOneUser = catchAsync(
   async (_req: Request, _res: Response): Promise<Response> => {
     const response = await userService.getOneUser(_req.params.id)
-    return _res.json(response)
-  },
-)
-
-export const createUser = catchAsync(
-  async (_req: Request, _res: Response): Promise<Response> => {
-    const response = await userService.createUser(_req.body)
     return _res.json(response)
   },
 )

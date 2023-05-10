@@ -25,6 +25,13 @@ export class Config {
     return this.getEnv('REDIS_URL')
   }
 
+  get JWT(): { secret: string; expiresIn: string } {
+    return {
+      secret: this.getEnv('JWT_SECRET'),
+      expiresIn: this.getEnv('JWT_EXPIRES_IN'),
+    }
+  }
+
   protected getEnv(env: string): string {
     if (!process.env[env]) {
       throw new Error(`Missing env var ${env}`)

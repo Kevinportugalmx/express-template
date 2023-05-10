@@ -1,24 +1,42 @@
 import express from 'express'
 import { userController } from '../../controllers/index.js'
-import { jwtMiddleware } from '../../middlewares/jwt.js'
-import { rolesMiddleware } from '../../middlewares/roles.js'
-import { validateMiddleware } from '../../middlewares/class-validator.js'
 import { DTO } from '../../utils/index.js'
+import { ValidateMiddleware } from '../../middlewares/error/index.js'
+import {
+  JwtMiddleware,
+  RolesMiddleware,
+  RolesTypes,
+} from '../../middlewares/auth/index.js'
+import { RateLimiterMiddleware } from '../../middlewares/rate-limiter.js'
 
 const router = express.Router()
 
-router.route('/').get(jwtMiddleware, rolesMiddleware, userController.getUsers)
-router
-  .route('/:id')
-  .get(jwtMiddleware, rolesMiddleware, userController.getOneUser)
-router
-  .route('/create')
-  .post(validateMiddleware(DTO.UserRegister), userController.createUser)
-router
-  .route('/update/:id')
-  .put(jwtMiddleware, rolesMiddleware, userController.updateUser)
-router
-  .route('/delete/:id')
-  .delete(jwtMiddleware, rolesMiddleware, userController.deleteUser)
+router.get(
+  '/',
+  JwtMiddleware,
+  RolesMiddleware(RolesTypes.USER),
+  RateLimiterMiddleware(3 * 60 * 1000, 3),
+  userController.getUsers,
+)
+router.get(
+  '/:id',
+  JwtMiddleware,
+  RolesMiddleware(RolesTypes.USER),
+  userController.getOneUser,
+)
+router.put(
+  '/update/:id',
+  JwtMiddleware,
+  RolesMiddleware(RolesTypes.ADMIN),
+  ValidateMiddleware(DTO.UserUpdate),
+  userController.updateUser,
+)
+router.delete(
+  '/delete/:id',
+  JwtMiddleware,
+  RolesMiddleware(RolesTypes.ADMIN),
+  ValidateMiddleware(DTO.Delete),
+  userController.deleteUser,
+)
 
 export { router as userRoute }

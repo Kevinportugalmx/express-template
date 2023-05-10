@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import httpStatus from 'http-status'
-import { logger } from './logger'
+import { logger } from '../logger/logger'
 export const catchAsync =
   (fn) =>
   (_req: Request, _res: Response, _next: NextFunction): void => {

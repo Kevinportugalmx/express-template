@@ -20,7 +20,7 @@ export const User = new mongoose.Schema(
       type: mongoose.SchemaTypes.String,
       required: true,
     },
-    roles: { type: [mongoose.SchemaTypes.String], required: true },
+    roles: { type: [mongoose.SchemaTypes.String], default: ['USER'] },
     status: { type: mongoose.SchemaTypes.String, default: 'active' },
   },
   {

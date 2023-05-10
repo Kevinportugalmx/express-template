@@ -5,9 +5,8 @@ import helmet from 'helmet'
 import { routes } from './routes/v1/index.js'
 import { config } from './config.js'
 import { dbConnection } from './db/connection.js'
-import { requestMiddleware } from './middlewares/request.js'
-import bodyParser from 'body-parser'
-import { ErrorMiddleware } from './middlewares/error.js'
+import { RequestMiddleware } from './middlewares/logger/Index.js'
+import { CustomError, errorMiddleware } from './middlewares/error/index.js'
 
 const app = express()
 
@@ -16,23 +15,22 @@ const server = http.createServer(app)
 app.use(
   cors(),
   helmet(),
-  requestMiddleware(),
+  RequestMiddleware(),
   express.urlencoded({ extended: true }),
   express.json(),
-  bodyParser.json(),
 )
+
 app.options('*', cors())
 app.use('/v1', routes)
-
-const errorMiddleware = new ErrorMiddleware()
-app.use((_error: Error, _req: Request, _res: Response, _next: NextFunction) =>
-  errorMiddleware.handleError(_error, _req, _res, _next),
+app.use(
+  (_error: CustomError, _req: Request, _res: Response, _next: NextFunction) =>
+    errorMiddleware.handleError(_error, _req, _res, _next),
 )
+
 //TODO
-// rate limiter
 // swagger
-// dockerizar
-// agregar cache de redis
+// dockerize
+// cache redis
 // unit tests (jest)
 // e2e tests (supertest)
 

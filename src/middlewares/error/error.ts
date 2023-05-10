@@ -1,16 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, Response } from 'express'
-import { logger } from './logger'
+import { logger } from '../logger/logger'
 import { BadRequest } from './class-validator'
+
+export interface CustomError extends Error {
+  statusCode: number
+  error?: Error
+  code: number
+}
 
 export class ErrorMiddleware {
   handleError(
-    _error: any,
+    _error: CustomError,
     _req: Request,
     _res: Response,
     _next: NextFunction,
   ): void {
-    if (_error.name !== 'class-validator') {
+    if (_error.name !== 'BadRequest') {
       logger.error(`${_error.message}`, {
         _error: {
           code: _error.code,
@@ -30,7 +36,7 @@ export class ErrorMiddleware {
         statusCode: _error.statusCode,
         message: _error.message,
       })
-    } else if (_error.name == 'class-validator') {
+    } else if (_error.name === 'BadRequest') {
       const badRequest = _error as BadRequest
       logger.error('Bad Request', {
         http: { status_code: badRequest.code },
@@ -47,3 +53,5 @@ export class ErrorMiddleware {
     }
   }
 }
+
+export const errorMiddleware = new ErrorMiddleware()

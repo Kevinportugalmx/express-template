@@ -1,6 +1,6 @@
 import { IsMongoId, IsNotEmpty } from 'class-validator'
 
-export class DeleteGeneral {
+export class Delete {
   @IsNotEmpty()
   @IsMongoId()
   _id: string

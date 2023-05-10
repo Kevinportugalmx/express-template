@@ -1,10 +1,15 @@
 import express from 'express'
 import { userRoute } from './user.js'
 import { productsRoute } from './products.js'
+import { authRoute } from './auth.js'
 
 const router = express.Router()
 
 const routes = [
+  {
+    path: '/auth',
+    route: authRoute,
+  },
   {
     path: '/user',
     route: userRoute,
@@ -16,8 +21,8 @@ const routes = [
 ]
 
 //map routes
-routes.forEach((route) => {
-  router.use(route.path, route.route)
+routes.forEach(({ path, route }) => {
+  router.use(path, route)
 })
 
 //return not found error if route not found

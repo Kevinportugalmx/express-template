@@ -1,11 +1,24 @@
-import { IsEmail, IsMongoId, IsNotEmpty, IsString } from 'class-validator'
+import { Exclude } from 'class-transformer'
+import {
+  Allow,
+  IsEmail,
+  IsMongoId,
+  IsNotEmpty,
+  IsString,
+} from 'class-validator'
 
 export class UserResponse {
+  @Allow()
   _id: string
+  @Allow()
   email: string
+  @Allow()
   status: string
+  @Allow()
   roles: Array<string>
+  @Exclude()
   password?: string
+  @Allow()
   token?: string
 }
 
@@ -27,10 +40,6 @@ export class UserRegister {
   @IsNotEmpty()
   @IsString()
   password: string
-
-  @IsNotEmpty()
-  @IsString({ each: true })
-  roles: Array<string>
 }
 
 export class UserUpdate {

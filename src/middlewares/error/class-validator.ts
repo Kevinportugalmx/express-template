@@ -8,35 +8,30 @@ export class BadRequest extends Error {
   constructor(message: Array<string>) {
     super(JSON.stringify(message))
     this.code = httpStatus.BAD_REQUEST
-    this.name = 'class-validator'
+    this.name = 'BadRequest'
   }
 }
 
-export const validateMiddleware = (DTO) => {
+export const ValidateMiddleware = <T>(DTO: new () => T) => {
   return async (
     _req: Request,
     _res: Response,
     _next: NextFunction,
   ): Promise<void> => {
+    const { method, query, body } = _req
     const dtoInstance = Object.assign(
       new DTO(),
-      _req.method.toLowerCase() == 'get' ? _req.query : _req.body,
+      method.toLowerCase() === 'get' ? query : body,
     )
 
     const exceptions = await validate(dtoInstance)
 
     if (exceptions.length > 0) {
-      const errors: string[] = []
-      exceptions.forEach((error) =>
-        errors.push(
-          ...Object.values(
-            error.constraints as {
-              [type: string]: string
-            },
-          ),
-        ),
+      const errors = exceptions.flatMap((error) =>
+        Object.values(error.constraints || {}),
       )
       _next(new BadRequest(errors))
+      return
     }
 
     _next()
