@@ -2,7 +2,7 @@ import express from 'express'
 import http from 'http'
 import cors from 'cors'
 import helmet from 'helmet'
-import { routes } from './routes/index.js'
+import { routes } from './routes/v1/index.js'
 import { config } from './config.js'
 import { dbConnection } from './db/connection.js'
 
@@ -20,6 +20,9 @@ app.use('/v1', routes)
 // jwt authentication
 // class validator
 // rate limiter
+// swagger
+// dockerizar
+// agregar cache de redis
 
 export const bootstrap = async (): Promise<void> => {
   const db = dbConnection()
