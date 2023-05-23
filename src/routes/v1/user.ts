@@ -10,6 +10,26 @@ import {
 import { RateLimiterMiddleware } from '../../middlewares/rate-limiter.js'
 
 const router = express.Router()
+/**
+ * @swagger
+ * /v1/user:
+ *   get:
+ *     summary: Get all users
+ *     description: Retrieve all users.
+ *
+ *     responses:
+ *       200:
+ *         description: {Array of users}
+ *         schema:
+ *           type: array
+ *
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: Internal server error
+ */
 
 router.get(
   '/',

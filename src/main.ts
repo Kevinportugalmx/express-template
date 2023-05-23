@@ -7,6 +7,8 @@ import { config } from './config.js'
 import { dbConnection } from './db/connection.js'
 import { RequestMiddleware } from './middlewares/logger/Index.js'
 import { CustomError, errorMiddleware } from './middlewares/error/index.js'
+import swaggerUi from 'swagger-ui-express'
+import swaggerJSDoc from 'swagger-jsdoc'
 
 const app = express()
 
@@ -22,13 +24,26 @@ app.use(
 
 app.options('*', cors())
 app.use('/v1', routes)
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Express-template',
+      version: '1.0.0',
+    },
+    server: ['http://localhost:4000'],
+  },
+  apis: ['./src/routes/v1/*.ts'],
+}
+const specs = swaggerJSDoc(options)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 app.use(
   (_error: CustomError, _req: Request, _res: Response, _next: NextFunction) =>
     errorMiddleware.handleError(_error, _req, _res, _next),
 )
 
 //TODO
-// swagger
 // dockerize
 // cache redis
 // unit tests (jest)

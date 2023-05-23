@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { catchAsync } from '../middlewares/error/catch-async.js'
 import { userService } from '../services/index.service.js'
 
+
 export const getUsers = catchAsync(
   async (_req: Request, _res: Response): Promise<Response> => {
     const response = await userService.getUser()
